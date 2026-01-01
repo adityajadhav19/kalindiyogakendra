@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model PageContent {
+  id        Int      @id @default(autoincrement())
+  page      String   @unique // home, about, contact
+  title     String?
+  content   String
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  name      String
+  message   String
+  rating    Int?      // optional
+  order     Int       // sequence control
+  isVisible Boolean   @default(true)
+  createdAt DateTime  @default(now())
+}
+
+model GalleryImage {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  caption   String?
+  order     Int
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model GalleryVideo {
+  id            Int      @id @default(autoincrement())
+  youtubeUrl    String
+  thumbnailUrl  String?   // optional custom thumbnail
+  title         String?
+  order         Int
+  isVisible     Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model BookingRequest {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  classType String?   // online / offline / counselling
+  message   String?
+  createdAt DateTime @default(now())
+}
